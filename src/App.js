@@ -21,12 +21,6 @@ const App = () => {
       updateGameBoard(dummyBoard);
 
       checkWinCondition(dummyBoard);
-
-      if (playerTurn === 'X') {
-        updatePlayerTurn('O');
-      } else {
-        updatePlayerTurn('X');
-      }
     }
   };
 
@@ -79,6 +73,12 @@ const App = () => {
       board[2][0] !== null
     ) {
       updateWin(true);
+    } else {
+      if (playerTurn === 'X') {
+        updatePlayerTurn('O');
+      } else {
+        updatePlayerTurn('X');
+      }
     }
   };
   /*
@@ -95,73 +95,21 @@ const App = () => {
 
   return (
     <div>
-      {win &&
-        (playerTurn === 'X' ? (
-          <div className="win-statement"> O Wins!</div>
-        ) : (
-          <div className="win-statement"> X Wins!</div>
-        ))}
+      {win && <div className="win-statement"> {playerTurn} Wins!</div>}
       <div className="container">
-        <div className="row">
-          <div
-            className="column"
-            onClick={() => clickCell({ row: 0, column: 0 })}
-          >
-            {gameBoard[0][0]}
+        {gameBoard.map((row, rowIdx) => (
+          <div key={`row - ${rowIdx}`} className="row">
+            {row.map((_, colIdx) => (
+              <div
+                key={`col - ${rowIdx}/${colIdx}`}
+                className="column"
+                onClick={() => clickCell({ row: rowIdx, column: colIdx })}
+              >
+                {gameBoard[rowIdx][colIdx]}
+              </div>
+            ))}
           </div>
-          <div
-            className="column"
-            onClick={() => clickCell({ row: 0, column: 1 })}
-          >
-            {gameBoard[0][1]}
-          </div>
-          <div
-            className="column"
-            onClick={() => clickCell({ row: 0, column: 2 })}
-          >
-            {gameBoard[0][2]}
-          </div>
-        </div>
-        <div className="row">
-          <div
-            className="column"
-            onClick={() => clickCell({ row: 1, column: 0 })}
-          >
-            {gameBoard[1][0]}
-          </div>
-          <div
-            className="column"
-            onClick={() => clickCell({ row: 1, column: 1 })}
-          >
-            {gameBoard[1][1]}
-          </div>
-          <div
-            className="column"
-            onClick={() => clickCell({ row: 1, column: 2 })}
-          >
-            {gameBoard[1][2]}
-          </div>
-        </div>
-        <div className="row">
-          <div
-            className="column"
-            onClick={() => clickCell({ row: 2, column: 0 })}
-          >
-            {gameBoard[2][0]}
-          </div>
-          <div
-            className="column"
-            onClick={() => clickCell({ row: 2, column: 1 })}
-          >
-            {gameBoard[2][1]}
-          </div>
-          <div
-            className="column"
-            onClick={() => clickCell({ row: 2, column: 2 })}
-          >
-            {gameBoard[2][2]}
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );
